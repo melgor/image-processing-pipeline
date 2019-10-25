@@ -1,11 +1,11 @@
 import os
 from tqdm import tqdm
 
-from pipeline.capture_video import CaptureVideo
-from pipeline.cascade_detect_faces import CascadeDetectFaces
-from pipeline.annotate_video import AnnotateVideo
-from pipeline.display_video import DisplayVideo
-from pipeline.save_video import SaveVideo
+from libs.pipeline.capture_video import CaptureVideo
+from libs.pipeline.cascade_detect_faces import CascadeDetectFaces
+from libs.pipeline.annotate_video import AnnotateVideo
+from libs.pipeline.display_video import DisplayVideo
+from libs.pipeline.save_video import SaveVideo
 
 
 def parse_args():

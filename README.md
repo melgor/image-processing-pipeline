@@ -2,6 +2,20 @@
 
 Modular image processing pipeline using OpenCV and Python generators.  
 
+
+## Idea
+Run Face-Recognition on image-list/video using latest techniqiue for it.
+Modules:
+ - Face Detection
+ - Face Alignment
+ - Face Features Extraction
+ - Face Recognition
+ - Gallery creation for Face-Recognition
+ - Displaying the results
+ - Saving results as JSON
+ - Staring server 
+ - Future: Data Clustering + Hand-Correction 
+
 ## Setup environment
 
 This project is using [Conda](https://conda.io) for project environment management.
@@ -13,8 +27,7 @@ Setup the project environment:
 
 ## Getting started
 
-For detailed description read the article "[Modular image processing pipeline using OpenCV and Python generators](https://medium.com/deepvisionguru/modular-image-processing-pipeline-using-opencv-and-python-generators-9edca3ccb696)" on Medium.
-Dont' forget to clap a bit if you like it.
+
 
 ## Resources and Credits
 

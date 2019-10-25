@@ -1,10 +1,10 @@
 import os
 
-from pipeline.load_images import LoadImages
-from pipeline.cascade_detect_faces import CascadeDetectFaces
-from pipeline.save_faces import SaveFaces
-from pipeline.save_summary import SaveSummary
-from pipeline.display_summary import DisplaySummary
+from libs.pipeline.load_images import LoadImages
+from libs.pipeline.mtcnn_detect_face import MTCNNDetectFacesPipeline
+from libs.pipeline.save_faces import SaveFaces
+from libs.pipeline.save_summary import SaveSummary
+from libs.pipeline.display_summary import DisplaySummary
 
 
 def parse_args():
@@ -18,7 +18,7 @@ def parse_args():
                     help="path to output directory")
     ap.add_argument("-os", "--out-summary", default=None,
                     help="output JSON summary file name")
-    ap.add_argument("-c", "--classifier", default="models/haarcascade/haarcascade_frontalface_default.xml",
+    ap.add_argument("-c", "--classifier", default="models/mtcnn/",
                     help="path to where the face cascade resides")
 
     return ap.parse_args()
@@ -28,9 +28,9 @@ def main(args):
     # Create pipeline steps
     load_images = LoadImages(args.input)
 
-    detect_faces = CascadeDetectFaces(args.classifier)
+    detect_faces = MTCNNDetectFacesPipeline({'model_dir': args.classifier})
 
-    save_faces = SaveFaces(args.output)
+    # save_faces = SaveFaces(args.output)
 
     if args.out_summary:
         summary_file = os.path.join(args.output, args.out_summary)
@@ -39,10 +39,10 @@ def main(args):
     display_summary = DisplaySummary()
 
     # Create image processing pipeline
-    pipeline = load_images | detect_faces | save_faces
+    pipeline = load_images | detect_faces
     if args.out_summary:
         pipeline |= save_summary
-    pipeline |= display_summary
+    # pipeline |= display_summary
 
     # Iterate through pipeline
     for _ in pipeline:
