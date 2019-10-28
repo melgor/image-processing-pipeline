@@ -15,6 +15,9 @@ class Pipeline(object):
         other.source = self.generator()
         return other
 
+    def __call__(self, data):
+        return self.map(data)
+
     def filter(self, data):
         return True
 
@@ -23,3 +26,6 @@ class Pipeline(object):
 
     def has_next(self):
         return True
+
+    def shutdown(self):
+        pass

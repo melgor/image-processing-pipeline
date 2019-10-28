@@ -1,6 +1,7 @@
 import cv2
 
 from pipeline.pipeline import Pipeline
+from pipeline.pipeline_manager import STOP
 import pipeline.utils as utils
 
 
@@ -13,8 +14,7 @@ class LoadImages(Pipeline):
 
     def generator(self):
         source = utils.list_images(self.src, self.valid_exts)
-        while self.has_next():
-            image_file = next(source)
+        for image_file in source:
             image = cv2.imread(image_file)
 
             data = {
@@ -24,3 +24,8 @@ class LoadImages(Pipeline):
 
             if self.filter(data):
                 yield self.map(data)
+
+        yield STOP
+
+    def __call__(self, data):
+        yield from self.generator()

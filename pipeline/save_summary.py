@@ -25,9 +25,8 @@ class SaveSummary(Pipeline):
 
         return data
 
-    def write(self):
+    def shutdown(self):
         dirname = os.path.dirname(os.path.abspath(self.filename))
         os.makedirs(dirname, exist_ok=True)
-
         with open(self.filename, 'w') as json_file:
             json_file.write(json.dumps(self.summary))
