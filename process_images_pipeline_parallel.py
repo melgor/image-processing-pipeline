@@ -5,6 +5,7 @@ from pipeline.cascade_detect_faces import CascadeDetectFaces
 from pipeline.save_faces import SaveFaces
 from pipeline.save_summary import SaveSummary
 from pipeline.display_summary import DisplaySummary
+from pipeline.pipeline_manager import PipelineManager
 
 
 def parse_args():
@@ -39,18 +40,17 @@ def main(args):
     display_summary = DisplaySummary()
 
     # Create image processing pipeline
-    pipeline = load_images | detect_faces | save_faces
+    pipeline_manager = PipelineManager()
+    pipeline_manager.add(load_images)
+    pipeline_manager.add(detect_faces, 8)
+    pipeline_manager.add(save_faces)
+
     if args.out_summary:
-        pipeline |= save_summary
-    pipeline |= display_summary
+        pipeline_manager.add(save_summary)
+    pipeline_manager.add(display_summary)
 
     # Iterate through pipeline
-    for a in pipeline:
-        pass
-
-    if args.out_summary:
-        print(f"[INFO] Saving summary to {summary_file}...")
-        save_summary.write()
+    pipeline_manager.run()
 
 
 if __name__ == "__main__":

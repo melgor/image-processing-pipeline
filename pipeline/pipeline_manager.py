@@ -64,11 +64,12 @@ class Task(object):
 
 
 class PipelineManager:
-    def __init__(self):
+    def __init__(self, max_size=32):
         self.tasks = []
         self.nextId = 1
-        self.input_queue = Queue(32)
-        self.output_queue = Queue(32)
+        self.max_size = max_size
+        self.input_queue = Queue(max_size=self.max_size)
+        self.output_queue = Queue(max_size=self.max_size)
 
     def run(self, arg=None):
 
@@ -85,7 +86,7 @@ class PipelineManager:
         input_queue = self.input_queue
         if len(self.tasks):
             # set output queue for last_task which have same output as input for next one
-            input_queue = Queue(32)
+            input_queue = Queue(self.max_size)
             for task in self.tasks:
                 if task.output_queue == self.output_queue:
                     task.output_queue = input_queue
