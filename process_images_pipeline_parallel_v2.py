@@ -1,4 +1,5 @@
 import os
+from tqdm import tqdm
 
 from pipeline.load_images import LoadImages
 from pipeline.cascade_detect_faces import CascadeDetectFaces
@@ -6,6 +7,15 @@ from pipeline.save_faces import SaveFaces
 from pipeline.save_summary import SaveSummary
 from pipeline.display_summary import DisplaySummary
 from pipeline.pipeline_manager_v2 import Task
+
+import cv2
+cv2.setNumThreads(1)
+
+########################
+# 1. Single Thread: 2m 14s
+# 2. 8 Process for Detection:  ?
+# 3. 8 Thread for Face-Detection:29s
+########################
 
 
 def parse_args():
@@ -40,14 +50,16 @@ def main(args):
     display_summary = DisplaySummary()
 
     # Create image processing pipeline
-    pipeline = Task(load_images) | Task(detect_faces, 8) | Task(save_faces)
+    pipeline = Task(load_images) | Task(detect_faces, 2) | Task(save_faces)
     if args.out_summary:
         pipeline |= Task(save_summary)
-    pipeline |= Task(display_summary)
+    # pipeline |= Task(display_summary)
 
     # Iterate through pipeline
-    for a in pipeline:
+    for a in tqdm(pipeline):
         pass
+
+    print("Finish")
 
 
 if __name__ == "__main__":

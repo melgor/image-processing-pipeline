@@ -21,7 +21,6 @@ class LoadImages(Pipeline):
                 "image_file": image_file,
                 "image": image
             }
-
             if self.filter(data):
                 yield self.map(data)
 
