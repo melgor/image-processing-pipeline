@@ -25,3 +25,9 @@ Dont' forget to clap a bit if you like it.
 ## License
 
 [MIT License](LICENSE)
+
+## Idea
+1. Create pipeline by merging together several modules, which each one use dict to send the data
+2. Make use of computation power of your PC, what able to make your each module:
+    2.1 Run in Separate Thread (like I/O operation)
+    2.2 Run in New Process (computational expensive )
